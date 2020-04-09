@@ -38,4 +38,19 @@ Enter with projrcts paths:
 
     cd env
     
-create a folder called 'django-rpg-game' in the venv folder then enter it: cd django-rpg-game
+create a folder called 'myProjects' in the venv folder then enter it: cd myProjects
+
+create a folder for the site, comand:
+
+      django-admin startproject rpggame   
+ 
+pull the code with git to the folder or capy paste the content and enter the folder: cd rpggame
+
+To run the server comand:
+
+      py manage.py runserver
+  
+Then check the link in browser to see the site:
+
+      http://127.0.0.1:8000/
+   
