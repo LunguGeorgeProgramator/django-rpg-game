@@ -50,3 +50,7 @@ Then check the link in browser to see the site:
 
       http://127.0.0.1:8000/
    
+   
+      venv\Scripts\activate
+      cd venv\myProjects\django-rpg-game
+      py manage.py runserver
