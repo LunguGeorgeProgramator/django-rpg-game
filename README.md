@@ -40,11 +40,7 @@ Enter with projrcts paths:
     
 create a folder called 'myProjects' in the venv folder then enter it: cd myProjects
 
-create a folder for the site, comand:
-
-      django-admin startproject rpggame   
- 
-pull the code with git to the folder or capy paste the content and enter the folder: cd rpggame
+pull the code with git to the folder or copy paste the content and enter the folder: cd django-rpg-game
 
 To run the server comand:
 
