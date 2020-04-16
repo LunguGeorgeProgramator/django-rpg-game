@@ -18,13 +18,13 @@ Install gide for Djnago on windows:
         
 3. Set up virtual env:
   
-      py -m pip install virtualenvwrapper-win
+         py -m pip install virtualenvwrapper-win
     
-      py -m virtualenv venv
+         py -m virtualenv venv
     
 4. To start the virtual env:
 
-      venv\Scripts\activate
+         venv\Scripts\activate
 
 To stop use comand:
 
@@ -32,7 +32,7 @@ To stop use comand:
       
  5. Install django comand:
  
-      py -m pip install Django
+         py -m pip install Django
       
 Enter with projects paths:
 
@@ -44,7 +44,7 @@ pull the code with git to the folder or copy paste the content and enter the fol
 
 6. To run the server comand:
 
-      py manage.py runserver
+         py manage.py runserver
   
 Then check the link in browser to see the site:
 
