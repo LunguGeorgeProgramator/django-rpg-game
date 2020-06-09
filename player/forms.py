@@ -100,7 +100,7 @@ class RegisterPlayerForm(forms.ModelForm):
             raise ValidationError(_('Campul nume nu poate fi gol !!!'))
         return nume
     def clean_prenume(self):
-        prenume = self.cleaned_data['nume']
+        prenume = self.cleaned_data['prenume']
         if prenume is None or not prenume.strip():
             raise ValidationError(_('Campul prenume nu poate fi gol !!!'))
         return prenume

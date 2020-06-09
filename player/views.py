@@ -8,18 +8,37 @@ def index(request):
     return render(request, 'player/index.html', { 'players': players })
 
 def create(request):
+    error = ''
     if request.method == 'POST':
         create_form_player = RegisterPlayerForm(request.POST)
         if create_form_player.is_valid():
-            return store(request)
+            return store(request, create_form_player)
     else:
         create_form_player = RegisterPlayerForm(request.GET or None)
     return render(request, 'player/create.html',{
-        'create_form_player': create_form_player
+        'create_form_player': create_form_player,
+        'error': error
     })
 
-def store(request):
-    return redirect('show_profile')
+def store(request, create_form_player): 
+    email = create_form_player.cleaned_data.get('email')
+    player = Player.objects.filter(
+        nume_utilizator = create_form_player.cleaned_data.get('nume_utilizator'), 
+        email = email
+    )
+    if player:
+        return render(request, 'player/create.html',{
+            'create_form_player': create_form_player,
+            'error': 'Email deja utilizat ' +  email
+        })
+    player = Player(
+        nume = create_form_player.cleaned_data.get('nume'), 
+        prenume = create_form_player.cleaned_data.get('prenume'), 
+        nume_utilizator = create_form_player.cleaned_data.get('nume_utilizator'), 
+        email = create_form_player.cleaned_data.get('email')
+    )
+    player.save()
+    return redirect('show_profile', player.id)
 
 def edit(request):
     return
