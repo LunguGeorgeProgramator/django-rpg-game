@@ -1,0 +1,38 @@
+{% block head %}
+{% include "head.html" %}
+{% endblock %}
+<div class="container">
+	<div class="row">
+        <div class="col-sm-12">
+            <div class="row border-bottom border-light mb-4">
+                <div class="col">
+                <div class="h1 card-title">{{ method|capfirst }} </div>
+                </div>
+                
+            </div>
+            <form action="#" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ login_form_player.email.label_tag }}
+                    {{ login_form_player.email }}
+                    {% for error in login_form_player.email.errors %}
+                        <p><strong> {{ error }} </strong></p>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ login_form_player.nume_utilizator.label_tag }}
+                    {{ login_form_player.nume_utilizator }}
+                    {% for error in login_form_player.nume_utilizator.errors %}
+                        <p><strong> {{ error }} </strong></p>
+                    {% endfor %}
+                </div>
+                {% if error %}
+                <p><strong> {{ error }} </strong></p>
+                {% endif %}
+                <div class="form-group text-right">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
