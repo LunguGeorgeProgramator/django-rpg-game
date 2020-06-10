@@ -58,7 +58,7 @@ def login(request):
                 email = login_form_player.cleaned_data.get('email')
             )
             if player:
-                return show(request, player.id) 
+                return show(request, player[0].id) 
             else:
                 error = 'Nu exista userul ' +  user_name
     else:
