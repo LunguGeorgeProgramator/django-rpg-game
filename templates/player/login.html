@@ -6,9 +6,8 @@
         <div class="col-sm-12">
             <div class="row border-bottom border-light mb-4">
                 <div class="col">
-                <div class="h1 card-title">{{ method|capfirst }} </div>
+                    <div class="h1 card-title">{{ method|capfirst }} </div>
                 </div>
-                
             </div>
             <form action="#" method="post">
                 {% csrf_token %}
@@ -30,6 +29,7 @@
                 <p><strong> {{ error }} </strong></p>
                 {% endif %}
                 <div class="form-group text-right">
+                    <a class="btn btn-primary" href="{% url 'create_profile' %}">Create user</a>
                     <button type="submit" class="btn btn-primary">Login</button>
                 </div>
             </form>
