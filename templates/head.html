@@ -15,7 +15,12 @@
         <div class="row">
             <p>
                 <a class="btn btn-primary" href="{% url 'main_index' %}">Home</a>
-                <a class="btn btn-primary" href="{% url 'login_profile' %}">Login</a>
+                <a class="btn btn-primary" href="{% url 'show_players' %}">All players</a>
+                {% if request.session.player_id %} 
+                    <a class="btn btn-primary" href="{% url 'show_profile' request.session.player_id %}">Account</a>
+                {% else %}
+                    <a class="btn btn-primary" href="{% url 'login_profile' %}">Login</a>
+                {% endif %}
             </p>
         </div>
     </div>
