@@ -63,7 +63,7 @@ def logout(request):
         del request.session['player_id']
     except KeyError:
         pass
-    return render(request, 'index.html')
+    return redirect('main_index')
 
 def login(request):
     player = None
