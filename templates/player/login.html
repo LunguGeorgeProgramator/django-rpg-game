@@ -9,7 +9,7 @@
                     <div class="h1 card-title">{{ method|capfirst }} </div>
                 </div>
             </div>
-            <form action="#" method="post">
+            <form action="" method="post">
                 {% csrf_token %}
                 <div class="form-group">
                     {{ login_form_player.email.label_tag }}

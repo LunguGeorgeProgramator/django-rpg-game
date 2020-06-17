@@ -33,16 +33,6 @@ def create(request):
     })
 
 def store(request, create_form_player): 
-    email = create_form_player.cleaned_data.get('email')
-    player = Player.objects.filter(
-        nume_utilizator = create_form_player.cleaned_data.get('nume_utilizator'), 
-        email = email
-    )
-    if player:
-        return render(request, 'player/create.html',{
-            'create_form_player': create_form_player,
-            'error': 'Email deja utilizat ' +  email
-        })
     player = Player(
         nume = create_form_player.cleaned_data.get('nume'), 
         prenume = create_form_player.cleaned_data.get('prenume'), 

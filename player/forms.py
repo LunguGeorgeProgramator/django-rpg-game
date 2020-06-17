@@ -106,6 +106,11 @@ class RegisterPlayerForm(forms.ModelForm):
         return prenume
     def clean_email(self):
         email = self.cleaned_data['email']
+        player = Player.objects.filter(
+            email = email
+        )
+        if player:
+            raise ValidationError(_('Email '+email+' este deja folosit !!!'))
         if email is None or not email.strip():
             raise ValidationError(_('Campul email nu poate fi gol !!!'))
         if '@' not in email:
@@ -117,6 +122,11 @@ class RegisterPlayerForm(forms.ModelForm):
         return email
     def clean_nume_utilizator(self):
         nume_utilizator = self.cleaned_data['nume_utilizator']
+        player = Player.objects.filter(
+            nume_utilizator = nume_utilizator, 
+        )
+        if player:
+            raise ValidationError(_('Nume personaj '+nume_utilizator+' nu este deja folosit !!!'))
         if nume_utilizator is None or not nume_utilizator.strip():
             raise ValidationError(_('Campul nume personaj nu poate fi gol !!!'))
         return nume_utilizator
