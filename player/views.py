@@ -8,12 +8,16 @@ from django.contrib.sessions.backends.db import SessionStore
 
 def checkAuth(request, template = None, player_id = None):
     try:
-        if request.session['player_id'] == player_id:
+        try:
+            player = Player.objects.get(id=player_id)
+        except ObjectDoesNotExist:
+            return redirect('logout_profile')
+        if request.session['player_id'] == player.id:
             return template
         else: 
-            return redirect('login_profile')
+            return redirect('logout_profile')
     except KeyError:
-        return redirect('login_profile')
+        return redirect('logout_profile')
 
 def index(request):
     players = Player.objects.all()
@@ -37,9 +41,31 @@ def store(request, create_form_player):
         nume = create_form_player.cleaned_data.get('nume'), 
         prenume = create_form_player.cleaned_data.get('prenume'), 
         nume_utilizator = create_form_player.cleaned_data.get('nume_utilizator'), 
-        email = create_form_player.cleaned_data.get('email')
+        email = create_form_player.cleaned_data.get('email'),
+        level = 1,
+        experienta = 1,
+        attack = 1,
+        defense = 1,
+        health = 1,
+        mana = 1,
+        luck = 1,
     )
+    try:
+        skill = Skills.objects.get(nume='Slash attack2')
+    except ObjectDoesNotExist:
+        skill = Skills(
+            nume = 'Slash attack',
+            descriere = 'A simple attack skill, player throws a punch.',
+            tip = 'Fighter',
+            puncte = 1,
+            level_necesar = 1,
+            caracteristica_necesara = 'attack',
+            caracteristica_puncte_necesare = 1,
+        )
+        skill.save()
     player.save()
+    skill.players.add(player)
+    createPlayerSession(request, player)
     return redirect('show_profile', player.id)
 
 def edit(request):
@@ -53,7 +79,17 @@ def logout(request):
         del request.session['player_id']
     except KeyError:
         pass
-    return redirect('main_index')
+    return redirect('login_profile')
+
+def createPlayerSession(request, player):
+    try:
+        request.session['player_id'] = player.id
+    except KeyError:
+        s = SessionStore()
+        s['player_id'] = player.id
+        s.create()
+        s.session_key
+        s = SessionStore(session_key=s.session_key)
 
 def login(request):
     player = None
@@ -62,22 +98,13 @@ def login(request):
         login_form_player = LoginPlayerForm(request.POST)
         if login_form_player.is_valid():
             user_name = login_form_player.cleaned_data.get('nume_utilizator')
-            player = Player.objects.filter(
+            player = Player.objects.get(
                 nume_utilizator = user_name, 
                 email = login_form_player.cleaned_data.get('email')
             )
             if player:
-
-                try:
-                    request.session['player_id'] = player[0].id
-                except KeyError:
-                    s = SessionStore()
-                    s['player_id'] = player[0].id
-                    s.create()
-                    s.session_key
-                    s = SessionStore(session_key=s.session_key)
-
-                return redirect('show_profile', id=player[0].id)
+                createPlayerSession(request, player)
+                return redirect('show_profile', id=player.id)
             else:
                 error = 'Nu exista userul ' +  user_name
     else:
@@ -91,23 +118,10 @@ def show(request, id):
     try:
         player = Player.objects.get(id=id)
     except ObjectDoesNotExist:
-        player = {
-            'id': 0,
-            'nume': 'XXX',
-            'prenume': 'XXX',
-            'email': 'XXX@XXX.XXX',
-            'nume_utilizator': 'XXX',
-            'level': 'XXX',
-            'experienta': 'XXX',
-            'attack': 'XXX',
-            'defense': 'XXX',
-            'health': 'XXX',
-            'mana': 'XXX',
-            'luck': 'XXX'
-        }
-    # return redirect('show_profile', id=player.id)
-    # return checkAuth(request, redirect('show_profile', id=player.id), player.id)
+        player = Player(id = 0)
     return checkAuth(request, render(request, 'player/show.html', { 'player': player }), player.id)
 
-def delete(request):
-    return
+def delete(request, id):
+    player_to_remove = Player.objects.filter(id=id)
+    player_to_remove.delete()
+    return checkAuth(request, redirect('login_profile') , id)

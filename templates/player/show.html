@@ -38,7 +38,21 @@
                 <h2><strong> Luck </strong></h2>                    
                 <p><small> {{ player.luck }} </small></p>
             </div>
+            <a class="btn btn-primary" href="{% url 'battle_arena' %}">Arena</a>
             <a class="btn btn-primary" href="{% url 'logout_profile' %}">Logout</a>
+            <a class="btn btn-primary" onclick="confirmFunc(); return false;">Delete</a>
         </div>
 	</div>
 </div>
+
+<script>
+    function confirmFunc() {
+        var r = confirm("Are you sure!");
+        if (r == true) {
+            // console.log('da', "{% url 'delete_profile' player.id %}");
+            // throw new Error('This is not an error. This is just to abort javascript');
+            // window.location.replace("{% url 'delete_profile' player.id %}");
+            window.location.href = "{% url 'delete_profile' player.id %}";
+        } 
+    }
+</script>

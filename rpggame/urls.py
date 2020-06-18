@@ -7,4 +7,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='main_index'),
     path('', include('player.urls')),
+    path('', include('arena.urls')),
 ]

@@ -23,4 +23,4 @@ class Skills(models.Model):
     level_necesar = models.IntegerField(default=0)
     caracteristica_necesara = models.CharField(max_length=255)
     caracteristica_puncte_necesare = models.IntegerField(default=0)
-    player = models.ManyToManyField(Player)
+    players = models.ManyToManyField(Player)
