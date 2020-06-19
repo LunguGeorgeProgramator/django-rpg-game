@@ -8,4 +8,5 @@ urlpatterns = [
     path('', views.index, name='main_index'),
     path('', include('player.urls')),
     path('', include('arena.urls')),
+    path('', include('engine.urls')),
 ]

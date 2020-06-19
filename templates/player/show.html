@@ -9,36 +9,35 @@
                 <p><strong>email: </strong> {{ player.email }}</p>
                 <p><strong>Level: </strong> {{ player.level }} </p>
                 <p><strong>Experienta: </strong> {{ player.experienta }} / 50000 </p>
+                
                 <p><strong>Skills: </strong>
-                    <span class="tags">atack 1</span> 
-                    <span class="tags">atack 2</span>
-                    <span class="tags">atack 3</span>
-                    <span class="tags">atack 4</span>
+                    {% for skill in skills %}
+                        </br>
+                        <span class="tags">Name: {{ skill.nume }}</span></br>   
+                        <span class="tags">Description: {{ skill.descriere }}</span></br>
+                        <span class="tags">Damage: {{ skill.puncte }}</span></br>
+                        <span class="tags">Unlocked at level: {{ skill.level_necesar }}</span></br>
+                    {% endfor %}
                 </p>
             </div>             
         </div>            
         <div class="col-sm-12 divider text-center">
             <div class="col-xs-12 col-sm-4 emphasis">
-                <h2><strong> Attack </strong></h2>                    
-                <p><small> {{ player.attack }} </small></p>
+                <span><strong> Attack </strong></span><span> {{ player.attack }} </span>
             </div>
             <div class="col-xs-12 col-sm-4 emphasis">
-                <h2><strong> Defense </strong></h2>                    
-                <p><small> {{ player.defense }} </small></p>
+                <span><strong> Defense </span></h2><span> {{ player.defense }} </span>
             </div>
             <div class="col-xs-12 col-sm-4 emphasis">
-                <h2><strong> Health </strong></h2>                    
-                <p><small> {{ player.health }} </small></p>
+                <span><strong> Health </strong></span><span> {{ player.health }} </span>
             </div>
             <div class="col-xs-12 col-sm-4 emphasis">
-                <h2><strong> Mana </strong></h2>                    
-                <p><small> {{ player.mana }} </small></p>
+                <span><strong> Mana </strong></span><span> {{ player.mana }} </span>
             </div>
             <div class="col-xs-12 col-sm-4 emphasis">
-                <h2><strong> Luck </strong></h2>                    
-                <p><small> {{ player.luck }} </small></p>
+                <span><strong> Luck </strong></span><span> {{ player.luck }} </span>
             </div>
-            <a class="btn btn-primary" href="{% url 'battle_arena' %}">Arena</a>
+            <a class="btn btn-primary" href="{% url 'battle_arena' player.id %}">Arena</a>
             <a class="btn btn-primary" href="{% url 'logout_profile' %}">Logout</a>
             <a class="btn btn-primary" onclick="confirmFunc(); return false;">Delete</a>
         </div>

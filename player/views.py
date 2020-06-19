@@ -119,7 +119,8 @@ def show(request, id):
         player = Player.objects.get(id=id)
     except ObjectDoesNotExist:
         player = Player(id = 0)
-    return checkAuth(request, render(request, 'player/show.html', { 'player': player }), player.id)
+    skills = player.skills_set.all()
+    return checkAuth(request, render(request, 'player/show.html', { 'player': player, 'skills': skills}), player.id)
 
 def delete(request, id):
     player_to_remove = Player.objects.filter(id=id)
