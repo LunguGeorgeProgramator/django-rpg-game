@@ -20,20 +20,37 @@
 
 <div id="app">
     <div class="h1">Ultimile recenzii:</div>
-   <div
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            || player_json.health ||
+          </div>
+          <div class="col">
+            || enemy_json.health ||
+          </div>
+        </div>
+   <!-- <div
        class="card"
-       v-for="(recenzie, index) in recenzii"
    >
        <div class="card-header">
-           Masina: <a :href="'/masina/view/' + recenzie.masina.id">|| recenzie.masina.marca ||</a>
+         
        </div>
        <div class="card-body">
            <blockquote class="blockquote mb-0">
-               <p>|| recenzie.descriere ||</p>
-               <footer class="blockquote-footer text-right">|| recenzie.autor || <cite title="Source Title">|| recenzie.data_adaugari ||</cite></footer>
+              
+               
            </blockquote>
        </div>
-   </div>
+       <div class="card-header">
+       
+      </div>
+      <div class="card-body">
+          <blockquote class="blockquote mb-0">
+             
+              
+          </blockquote>
+      </div>
+   </div> -->
 </div>
 
 <script>
@@ -45,16 +62,17 @@
         delimiters: ['||', '||'],
         el: '#app',
         data: {
-            total_ones: 0,
-            total_twos: 0,
+            player_json: {},
+            enemy_json: {},
             inputs: [],
             recenzii: []
         },
         methods: {
-            getAllResults: function() {
-                axios.get('{% url 'engine' player.id %}')
+            getAllResults: function(player_json, health_json) {
+                axios.get('{% url "engine" id=player.id id_e=enemy.id %}')
                 .then(res => {
-                    this.recenzii = res.data;
+                    this.player_json = res.data.player;
+                    this.enemy_json = res.data.enemy;
                 })
                 .catch(error => {
                     alert("Eroare la request: " + String(error));

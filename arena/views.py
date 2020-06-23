@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from player.models import Player, Skills
+from engine.core_class import check
 import random
 
 def getEnemy(id, count = 0):
@@ -15,6 +16,7 @@ def getEnemy(id, count = 0):
         return enemy   
     return None
 
+@check
 def index(request, id):
     enemy = getEnemy(id)
     player = Player.objects.get(id=id)

@@ -3,5 +3,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('engine/<int:id>', views.engine, name='engine'),
+    path('engine/<int:id>/<int:id_e>', views.engine, name='engine'),
 ]

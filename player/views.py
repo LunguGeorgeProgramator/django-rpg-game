@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from player.forms import RegisterPlayerForm, LoginPlayerForm
 from django.core.exceptions import ObjectDoesNotExist
 from player.models import Player, Skills
+from engine.core_class import check
 from django.contrib.sessions.backends.db import SessionStore
-
 
 
 def checkAuth(request, template = None, player_id = None):
@@ -114,11 +114,9 @@ def login(request):
         'error': error 
     })
 
+@check
 def show(request, id):
-    try:
-        player = Player.objects.get(id=id)
-    except ObjectDoesNotExist:
-        player = Player(id = 0)
+    player = Player.objects.get(id=id)
     skills = player.skills_set.all()
     return checkAuth(request, render(request, 'player/show.html', { 'player': player, 'skills': skills}), player.id)
 
