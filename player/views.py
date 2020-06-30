@@ -91,6 +91,7 @@ def createPlayerSession(request, player):
         s.session_key
         s = SessionStore(session_key=s.session_key)
 
+@check
 def login(request):
     player = None
     error = ''
