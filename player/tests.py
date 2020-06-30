@@ -26,6 +26,7 @@ class PlayerTestClass(TestCase):
             'nume_utilizator': "Test utilizator"
         })
         self.assertEqual(302, response.status_code) # redirect to show account page
+        self.assertRedirects(response, '/profile/' + str(self.player.id))
 
         response = self.client.get('/profile/' + str(self.player.id))
         self.assertEqual(200, response.status_code)
