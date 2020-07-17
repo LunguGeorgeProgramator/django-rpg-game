@@ -38,6 +38,12 @@ class PlayerTestClass(TestCase):
         )
         newPlayer.save()
         playerDB = Player.objects.get(id=newPlayer.id)
-        self.assertEqual(newPlayer.id, playerDB.id)
+        self.assertEqual([
+                newPlayer.nume, 
+                newPlayer.prenume
+            ], [
+                playerDB.nume, 
+                playerDB.prenume
+            ])
 
         
