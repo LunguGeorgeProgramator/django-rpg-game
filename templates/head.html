@@ -14,16 +14,31 @@
         <script src="{% static 'js/vue.min.js' %}"></script>
         <script src="{% static 'js/axios.min.js' %}"></script>
     </head>
-    <div class="container">
-        <div class="row">
-            <p>
-                <a class="btn btn-primary" href="{% url 'main_index' %}">Home</a>
-                <a class="btn btn-primary" href="{% url 'show_players' %}">All players</a>
-                {% if request.session.player_id %} 
-                    <a class="btn btn-primary" href="{% url 'show_profile' request.session.player_id %}">Account</a>
-                {% else %}
-                    <a class="btn btn-primary" href="{% url 'login_profile' %}">Login</a>
-                {% endif %}
-            </p>
-        </div>
-    </div>
+    <!-- <div class="container">
+        <div class="row"> -->
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                <a class="navbar-brand" href="{% url 'main_index' %}">RPG Grota</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                      <a class="nav-link"href="{% url 'show_players' %}">Players list</a>
+                    </li>
+                    <li class="nav-item">
+                        {% if request.session.player_id %} 
+                            <a class="nav-link" href="{% url 'show_profile' request.session.player_id %}">Account</a>
+                        {% else %}
+                            <a class="nav-link" href="{% url 'login_profile' %}" >Login</a>
+                        {% endif %}
+                    </li>
+                  </ul>
+                  <!-- <form class="form-inline mt-2 mt-md-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                  </form> -->
+                </div>
+              </nav>
+        <!-- </div>
+    </div> -->
