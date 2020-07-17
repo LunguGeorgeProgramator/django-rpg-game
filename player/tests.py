@@ -30,3 +30,14 @@ class PlayerTestClass(TestCase):
 
         response = self.client.get('/profile/' + str(self.player.id))
         self.assertEqual(200, response.status_code)
+    
+    def test_db_insert(self):
+        newPlayer = Player(
+            nume = 'test name',
+            prenume = 'test prenume'
+        )
+        newPlayer.save()
+        playerDB = Player.objects.get(id=newPlayer.id)
+        self.assertEqual(newPlayer.id, playerDB.id)
+
+        
