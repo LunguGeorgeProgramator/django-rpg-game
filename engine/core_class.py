@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from player.models import Player, Skills
 from django.core import serializers
-import json
+import json, random
 
 def check(func):
     def inner(*args, **kwargs):
@@ -28,17 +28,31 @@ class Engine:
     def fight(self, player_id: int, enemy_id: int):
         try:
             player = self.convert_model_to_json(Player.objects.get(id = player_id))
-            enemy = self.convert_model_to_json(Player.objects.get(id = enemy_id))
+            enemy = self.convert_model_to_json(Player.objects.get(id = enemy_id))        
         except ObjectDoesNotExist:
             return {
                 'player': {},
                 'enemy': {}
             }
         return { 
-            'player': player[0]['fields'] if type(player) is list and len(player) > 0 else {}, 
-            'enemy': enemy[0]['fields'] if type(enemy) is list and len(enemy) > 0 else {}
+            'player': self.setId(player), 
+            'enemy': self.setId(enemy)
         }
     
-    def hit(self, attack, health):
-        print(attack, health)
-        return {1: 'da'}
+    def setId(self, player):
+        if type(player) is list and len(player):
+            player[0]['fields']['id'] = player[0]['pk']
+            return player[0]['fields']
+        return player
+
+    @check
+    def hit(self, player, enemy):
+        if random.randint(0,100) < player['luck']: # chance geting min attack or full is by the number of luck
+            hitAttack = player['attack'] # full attack
+        else:
+            hitAttack = (50 * player['attack'] ) / 100 # min attack is 50% pf player full attack
+        enemy['health'] = (enemy['health'] - hitAttack)
+        return { 
+            'player': player, 
+            'enemy': enemy
+        }

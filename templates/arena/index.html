@@ -1,6 +1,7 @@
 {% block head %}
 {% include "head.html" %}
 {% endblock %}
+{% csrf_token %}
 <div class="container">
     <div class="row">
       <div class="col-sm">
@@ -17,46 +18,34 @@
       </div>
     </div>
 </div>
-
 <div id="app">
     <div class="h1">Ultimile recenzii:</div>
     <div class="container">
         <div class="row">
           <div class="col">
-            || player_json.health ||
+            player health: || player_json.health ||
           </div>
           <div class="col">
-            || enemy_json.health ||
+            enemy health: || enemy_json.health ||
           </div>
         </div>
-   <!-- <div
-       class="card"
-   >
-       <div class="card-header">
-         
-       </div>
-       <div class="card-body">
-           <blockquote class="blockquote mb-0">
-              
-               
-           </blockquote>
-       </div>
-       <div class="card-header">
-       
-      </div>
-      <div class="card-body">
-          <blockquote class="blockquote mb-0">
-             
-              
-          </blockquote>
-      </div>
-   </div> -->
+        <div class="row">
+            <div class="col">
+                <button v-on:click="getHit(player_json, enemy_json)">Click to hit enemy</button>
+            </div>
+            <div class="col">
+                <button v-on:click="getHitG(enemy_json, player_json)">Click to hit player</button>
+            </div>
+        </div>
+        <div class="row">
+            <h1 v-if="response">GeeksforGeeks</h1> 
+        </div>
 </div>
 
 <script>
     window.axios.defaults.headers.common = {
         'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-TOKEN' : $('[name="csrfmiddlewaretoken"]').val(),
+        'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()
     };
     const app = new Vue({
         delimiters: ['||', '||'],
@@ -65,7 +54,8 @@
             player_json: {},
             enemy_json: {},
             inputs: [],
-            recenzii: []
+            recenzii: [],
+            response: false
         },
         methods: {
             getAllResults: function(player_json, health_json) {
@@ -73,6 +63,40 @@
                 .then(res => {
                     this.player_json = res.data.player;
                     this.enemy_json = res.data.enemy;
+                })
+                .catch(error => {
+                    alert("Eroare la request: " + String(error));
+                });
+            },
+            getHit: function(player, enemy) {
+                console.log(player.id, enemy.id);
+                axios.post('{{ HTTP_HOST }}/engine/hit/1/2', 
+                    {
+                        player: player, 
+                        enemy: enemy
+                    })
+                .then(dataResp => {
+                    console.log(dataResp.data);
+                    this.player_json = dataResp.data.player;
+                    this.enemy_json = dataResp.data.enemy;
+
+                })
+                .catch(error => {
+                    alert("Eroare la request: " + String(error));
+                });
+            },
+            getHitG: function(player, enemy) {
+                console.log(player.id, enemy.id);
+                axios.post('{{ HTTP_HOST }}/engine/hit/1/2', 
+                    {
+                        player: player, 
+                        enemy: enemy
+                    })
+                .then(dataResp => {
+                    console.log(dataResp.data);
+                    this.player_json = dataResp.data.enemy;
+                    this.enemy_json = dataResp.data.player;
+
                 })
                 .catch(error => {
                     alert("Eroare la request: " + String(error));
